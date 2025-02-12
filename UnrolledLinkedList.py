@@ -1,4 +1,5 @@
-class Foo(object):
+#class Node:
+class UnrolledLinkedList():
     def hello(self):
         return "hello"
 
