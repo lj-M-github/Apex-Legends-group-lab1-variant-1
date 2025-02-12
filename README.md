@@ -21,7 +21,7 @@ enough for educational purposes.
 ## Changelog
 
 - 29.03.2022 - 2
-  - Add test coverage.
+   - Add test coverage.
 - 29.03.2022 - 1
   - Update README. Add formal sections.
 - 29.03.2022 - 0
