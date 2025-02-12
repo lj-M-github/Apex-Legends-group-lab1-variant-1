@@ -1,4 +1,4 @@
-# GROUP-NAME - lab NUMBER - variant NUMBER
+# Apex-Legends - lab 1 - variant 1
 
 This is an example project which demonstrates project structure and necessary
 CI checks. It is not the best structure for real-world projects, but good
