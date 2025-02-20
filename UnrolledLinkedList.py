@@ -11,7 +11,7 @@ class UnrolledLinkedList():
         self.current_node = None
         self.current_index = 0
 
-    def append(self, value):
+    def append(self, value): # add an element and record the last input index
         if self.head is None:
             self.head = Node([value])
             self.current_node = self.head
@@ -27,13 +27,7 @@ class UnrolledLinkedList():
                 self.current_node = new_node
                 self.current_index = 1
     
-    def getIndex(self):
-        if self.current_node is None:
-            return None, 0
-        else:
-            return self.current_node.elements, self.current_index
-    
-    def delElement(self):
+    def delElement(self): #delete an element
         if self.current_node is None or self.current_index == 0:
             return False
         
@@ -46,6 +40,40 @@ class UnrolledLinkedList():
         else:
             self.current_index -= 1
         return True
-
+    
+    def set(self,index1,index2,element): #Set a value at a specific location 
+      print("set")
+    
+    def  member(self,element): #Check the element exist or not
+      print("member")
+    
+    def to_list(self): #Convert UnrolledLinkedList into List
+      res = []
+      cur = self.head
+      while current is not None:
+            res.extend(current.elements)  # Add the elements of the current node to res
+            current = current.next  # move to the next node
+      return res
+    
+    def from_list(self,list): #Convert the list into UnrolledLinkedList
+      self.head == None
+      if not list:
+        return
+      for e in list:
+        self.append(e)
+          
+      
+    def getLastNode(self): #Get the last node return list and index？
+      if self.current_node is None:
+          return None, 0
+      else:
+          return self.current_node.elements, self.current_index # 为什么直接不返回最后一个节点或者最后一个节点的最后一个数字？
+    
+    def PrintWholeList(self): #Print whole UnrolledLinkedList
+      current = self.head
+      while current.next:
+        print(current.elements)
+        current = current.next
+    
 
 
