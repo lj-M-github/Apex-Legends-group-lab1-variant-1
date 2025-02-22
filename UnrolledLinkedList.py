@@ -33,7 +33,7 @@ class UnrolledLinkedList():
         
         del self.current_node.elements[self.current_index - 1]
 
-        if len(self.current_node.elements) == 0:
+        if len(self.current_node.elements) == 1:
             if self.current_node.last:
                 self.current_node = self.current_node.last
             self.current_index = len(self.current_node.elements)
