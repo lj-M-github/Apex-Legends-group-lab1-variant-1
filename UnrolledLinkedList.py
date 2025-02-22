@@ -41,22 +41,47 @@ class UnrolledLinkedList():
             self.current_index -= 1
         return True
     
-    def set(self,index1,index2,element): #Set a value at a specific location 
-      print("set")
+    def set(self, node_index, element_index, element): #Set a value at a specific location 
+      current = self.head
+      count = 0
+
+      while current is not None and count < node_index:
+        current = current.next
+        count += 1
+      
+      if current is None:
+         raise IndexError("Node index out of range")
+      
+      if element_index < 0 or element_index >= len(current.elements):
+         raise IndexError("Element index out of range")
+      
+      current.elements[element_index] = element
     
-    def  member(self,element): #Check the element exist or not
-      print("member")
+    def check(self, element): #Check the element exist or not
+      current = self.head
+      count = 0
+
+      while current is not None:
+        for e in current.elements:
+            if e == element:
+               count += 1
+        current = current.next
+      
+      return element, count 
+
     
     def to_list(self): #Convert UnrolledLinkedList into List
       res = []
-      cur = self.head
+      current = self.head
       while current is not None:
             res.extend(current.elements)  # Add the elements of the current node to res
             current = current.next  # move to the next node
       return res
     
     def from_list(self,list): #Convert the list into UnrolledLinkedList
-      self.head == None
+      self.head = None
+      self.current_node = None
+      self.current_index = 0
       if not list:
         return
       for e in list:
@@ -71,7 +96,7 @@ class UnrolledLinkedList():
     
     def PrintWholeList(self): #Print whole UnrolledLinkedList
       current = self.head
-      while current.next:
+      while current is not None:
         print(current.elements)
         current = current.next
     
