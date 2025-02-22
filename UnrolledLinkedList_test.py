@@ -3,9 +3,8 @@ from hypothesis import given,  strategies
 from UnrolledLinkedList import UnrolledLinkedList
 
 
-
 class TestULL(unittest.TestCase):
-    
+
     def setUp(self):
         self.ull = UnrolledLinkedList(3)
 
@@ -17,7 +16,7 @@ class TestULL(unittest.TestCase):
     def test_del_element(self):
         for i in [1, 2, 3, 4]:
             self.ull.append(i)
-        
+
         self.ull.del_element()
         self.assertEqual(self.ull.to_list(), [1, 2, 3])
 
@@ -40,14 +39,14 @@ class TestULL(unittest.TestCase):
             self.ull.set_value(2, 0, 30)
         with self.assertRaises(IndexError):
             self.ull.set_value(0, 3, 30)
-            
+
     def test_get_value(self):
         for i in range(5):
             self.ull.append(i)
-        
+
         self.assertEqual(self.ull.get_value(0, 1), 1)
         self.assertEqual(self.ull.get_value(1, 1), 4)
-        
+
     def test_check(self):
         for x in [1, 2, 1, 3, 1]:
             self.ull.append(x)

@@ -109,7 +109,8 @@ class UnrolledLinkedList:
         for e in elements_list:
             self.append(e)
 
-    def get_last_node(self):  # get the last node return final node's elements and its index
+    # get the last node return final node's elements and its index
+    def get_last_node(self):
         if self.current_node is None:
             return None, 0
         else:
