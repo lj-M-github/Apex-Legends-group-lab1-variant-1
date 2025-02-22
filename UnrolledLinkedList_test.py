@@ -45,8 +45,8 @@ class TestULL(unittest.TestCase):
         for i in range(5):
             self.ull.append(i)
         
-        self.assertEqual(self.ull.get_value(0, 1), 2)
-        self.assertEqual(self.ull.get_value(1, 1), 5)
+        self.assertEqual(self.ull.get_value(0, 1), 1)
+        self.assertEqual(self.ull.get_value(1, 1), 4)
         
     def test_check(self):
         for x in [1, 2, 1, 3, 1]:
