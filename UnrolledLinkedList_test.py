@@ -4,7 +4,7 @@ from UnrolledLinkedList import UnrolledLinkedList
 
 
 
-class TestFoo(unittest.TestCase):
+class TestULL(unittest.TestCase):
     
     def setUp(self):
         self.ull = UnrolledLinkedList(3)
@@ -14,33 +14,40 @@ class TestFoo(unittest.TestCase):
             self.ull.append(i)
         self.assertEqual(self.ull.to_list(), list(range(10)))
 
-    def test_delElement(self):
+    def test_del_element(self):
         for i in [1, 2, 3, 4]:
             self.ull.append(i)
         
-        self.ull.delElement()
+        self.ull.del_element()
         self.assertEqual(self.ull.to_list(), [1, 2, 3])
 
-        self.ull.delElement()
-        self.ull.delElement()
-        self.ull.delElement()
+        self.ull.del_element()
+        self.ull.del_element()
+        self.ull.del_element()
         self.assertEqual(self.ull.to_list(), [])
 
-    def test_set(self):
+    def test_set_value(self):
         for i in range(5):
             self.ull.append(i)
 
-        self.ull.set(0, 1, 10)
+        self.ull.set_value(0, 1, 10)
         self.assertEqual(self.ull.to_list(), [0, 10, 2, 3, 4])
 
-        self.ull.set(1, 0, 20)
+        self.ull.set_value(1, 0, 20)
         self.assertEqual(self.ull.to_list(), [0, 10, 2, 20, 4])
 
         with self.assertRaises(IndexError):
-            self.ull.set(2, 0, 30)
+            self.ull.set_value(2, 0, 30)
         with self.assertRaises(IndexError):
-            self.ull.set(0, 3, 30)
-
+            self.ull.set_value(0, 3, 30)
+            
+    def test_get_value(self):
+        for i in range(5):
+            self.ull.append(i)
+        
+        self.assertEqual(self.ull.get_value(0, 1), 2)
+        self.assertEqual(self.ull.get_value(1, 1), 5)
+        
     def test_check(self):
         for x in [1, 2, 1, 3, 1]:
             self.ull.append(x)
@@ -57,13 +64,13 @@ class TestFoo(unittest.TestCase):
         self.assertEqual(self.ull.to_list(), [])
 
     def test_getLastNode(self):
-        self.assertEqual(self.ull.getLastNode(), (None, 0))
+        self.assertEqual(self.ull.get_last_node(), (None, 0))
 
         for x in [1, 2, 3, 4]:
             self.ull.append(x)
-        self.assertEqual(self.ull.getLastNode(), ([4], 1))
+        self.assertEqual(self.ull.get_last_node(), ([4], 1))
 
-    def test_PrintWholeList(self):
+    def test_print_whole_list(self):
         self.ull.append(1)
         self.ull.append(2)
         self.ull.append(3)
@@ -74,7 +81,7 @@ class TestFoo(unittest.TestCase):
         import sys
         captured_output = io.StringIO()
         sys.stdout = captured_output
-        self.ull.PrintWholeList()
+        self.ull.print_whole_list()
         sys.stdout = sys.__stdout__
 
         output = captured_output.getvalue().strip()

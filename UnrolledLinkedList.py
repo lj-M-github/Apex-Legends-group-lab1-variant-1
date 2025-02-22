@@ -4,6 +4,7 @@ class Node:
         self.next = None
         self.last = None
 
+
 class UnrolledLinkedList:
     def __init__(self, size=4):
         self.head = None
@@ -11,7 +12,7 @@ class UnrolledLinkedList:
         self.current_node = None
         self.current_index = 0
 
-    def append(self, value): # add an element and record the last input index
+    def append(self, value):  # add an element and record the last input index
         if self.head is None:
             self.head = Node([value])
             self.current_node = self.head
@@ -27,10 +28,10 @@ class UnrolledLinkedList:
                 self.current_node = new_node
                 self.current_index = 1
 
-    def del_element(self): # delete an element from the last node
+    def del_element(self):  # delete an element from the last node
         if self.current_node is None or self.current_index == 0:
             return False
-        
+
         del self.current_node.elements[self.current_index - 1]
 
         if not self.current_node.elements:
@@ -41,11 +42,15 @@ class UnrolledLinkedList:
                 self.current_node = self.current_node.last
             else:
                 self.current_node = self.current_node.next
-
-        self.current_index = max(0, len(self.current_node.elements))
+        if self.current_node is None:
+            self.current_index = 0
+            self.head = None
+        else:
+            self.current_index = max(0, len(self.current_node.elements))
         return True
 
-    def set_value(self, node_index, element_index, element): # set a value at a specific location
+    # set a value at a specific location
+    def set_value(self, node_index, element_index, element):
         current = self.head
         count = 0
 
@@ -61,9 +66,9 @@ class UnrolledLinkedList:
 
         current.elements[element_index] = element
 
-    def get_value(self, node_index, element_index): # get value by index
+    def get_value(self, node_index, element_index):  # get value by index
         current = self.head
-        count = 1
+        count = 0
 
         while current is not None and count < node_index:
             current = current.next
@@ -72,12 +77,12 @@ class UnrolledLinkedList:
         if current is None:
             raise IndexError("Node index out of range")
 
-        if element_index < 0 or element_index > len(current.elements):
+        if element_index < 0 or element_index >= len(current.elements):
             raise IndexError("Element index out of range")
 
-        return current.elements[element_index-1]
+        return current.elements[element_index]
 
-    def check(self, element): # check the number of elements exist
+    def check(self, element):  # check the number of elements exist
         current = self.head
         count = 0
 
@@ -87,7 +92,7 @@ class UnrolledLinkedList:
 
         return element, count
 
-    def to_list(self): # convert UnrolledLinkedList into List
+    def to_list(self):  # convert UnrolledLinkedList into List
         res = []
         current = self.head
         while current is not None:
@@ -95,7 +100,7 @@ class UnrolledLinkedList:
             current = current.next
         return res
 
-    def from_list(self, elements_list): # convert List into UnrolledLinkedList
+    def from_list(self, elements_list):  # convert List into UnrolledLinkedList
         self.head = None
         self.current_node = None
         self.current_index = 0
@@ -104,13 +109,13 @@ class UnrolledLinkedList:
         for e in elements_list:
             self.append(e)
 
-    def get_last_node(self): # get the last node return elements and index
+    def get_last_node(self):  # get the last node return final node's elements and its index
         if self.current_node is None:
             return None, 0
         else:
             return self.current_node.elements, self.current_index
 
-    def print_whole_list(self): # print whole UnrolledLinkedList
+    def print_whole_list(self):  # print whole UnrolledLinkedList
         current = self.head
         while current is not None:
             print(current.elements)
