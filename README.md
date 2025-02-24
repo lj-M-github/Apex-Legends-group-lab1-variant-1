@@ -37,7 +37,7 @@ such as linked lists and their variations, and provides essential functionality.
 ## Changelog
 
 - 24.02.2025 - 2
-  - fix style problem and update README
+  - Fix style problem and update README
 - 24.02.2025 - 1
   - Add test coverage
 - 24.02.2025 - 0
