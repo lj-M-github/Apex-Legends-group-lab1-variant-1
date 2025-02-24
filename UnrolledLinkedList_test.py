@@ -107,7 +107,7 @@ class TestULL(unittest.TestCase):
         assert result == 10
 
     @given(st.lists(st.integers()))
-    def test_from_list_to_list_equality(self,input_list):
+    def test_from_list_to_list_equality(self, input_list):
         # Test if from_list and to_list are consistent
         ull = UnrolledLinkedList(size=3)
         ull.from_list(input_list)
@@ -116,7 +116,7 @@ class TestULL(unittest.TestCase):
         assert ull.to_list() == input_list
 
     @given(st.lists(st.integers()))
-    def test_python_len_and_list_size_equality(self,input_list):
+    def test_python_len_and_list_size_equality(self, input_list):
         # Test the size method and compare it with Python's len()
         ull = UnrolledLinkedList(size=3)
         ull.from_list(input_list)

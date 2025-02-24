@@ -149,7 +149,7 @@ class UnrolledLinkedList:
             current = current.next
 
     def reduce(self, f, initial_value):
-        # Reduce the elements of the UnrolledLinkedList using the given function.
+        # Reduce the elements of the UnrolledLinkedList using the given f.
         current = self.head
         state = initial_value
 
@@ -180,7 +180,7 @@ class UnrolledLinkedList:
             self._iter_index += 1
             return result
         else:
-            # If all elements in the current node are processed, move to the next node
+            # If current_node.elements are processed, move to the next node
             self._iter_node = self._iter_node.next
             self._iter_index = 0  # Reset the element index for the new node
             if self._iter_node is None:
