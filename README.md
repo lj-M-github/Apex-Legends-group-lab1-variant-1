@@ -39,21 +39,21 @@ such as linked lists and their variations, and provides essential functionality.
 - 24.02.2025 - 2
  - Fix style problem and update README
 - 24.02.2025 - 1
-  - Add test coverage
+ - Add test coverage
 - 24.02.2025 - 0
-  - Add new functions: map, reduce, iter, etc and fix old one
+ - Add new functions: map, reduce, iter, etc and fix old one
 - 22.02.2025 - 2
-  - Unify the names of methods and variables
+ - Unify the names of methods and variables
 - 22.02.2025 - 1
-  - Add test coverage
+ - Add test coverage
 - 22.02.2025 - 0
-  - Add functions: set_value, get_value, etc and fix old one
+ - Add functions: set_value, get_value, etc and fix old one
 - 19.02.2025 - 2
-  - Add test coverage
+ - Add test coverage
 - 19.02.2025 - 1
-  - Add functions:append, delete
+ - Add functions:append, delete
 - 19.02.2025 - 0
-  - Initial
+ - Initial
 
 ## Design notes
 
