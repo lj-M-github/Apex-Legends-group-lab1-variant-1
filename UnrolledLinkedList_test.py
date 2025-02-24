@@ -1,6 +1,7 @@
 import unittest
-from hypothesis import given,  strategies
+from hypothesis import given
 from UnrolledLinkedList import UnrolledLinkedList
+import hypothesis.strategies as st
 
 
 class TestULL(unittest.TestCase):
@@ -70,11 +71,8 @@ class TestULL(unittest.TestCase):
         self.assertEqual(self.ull.get_last_node(), ([4], 1))
 
     def test_print_whole_list(self):
-        self.ull.append(1)
-        self.ull.append(2)
-        self.ull.append(3)
-        self.ull.append(4)
-        self.ull.append(5)
+        for i in range(5):
+            self.ull.append(i)
 
         import io
         import sys
@@ -84,8 +82,56 @@ class TestULL(unittest.TestCase):
         sys.stdout = sys.__stdout__
 
         output = captured_output.getvalue().strip()
-        expected_output = "[1, 2, 3]\n[4, 5]"
+        expected_output = "[0, 1, 2]\n[3, 4]"
         self.assertEqual(output, expected_output)
+
+    def test_map(self):
+        for i in range(5):
+            self.ull.append(i)
+
+        # Apply a function to increment each value
+        self.ull.map(lambda x: x + 1)
+
+        # Check the result
+        assert self.ull.to_list() == [2, 3, 4, 5, 6]
+
+    def test_reduce(self):
+        # Test the reduce function
+        for i in range(5):
+            self.ull.append(i)
+
+        # Sum of all elements in the list
+        result = self.ull.reduce(lambda acc, x: acc + x, 0)
+
+        # Check the result
+        assert result == 10
+
+    @given(st.lists(st.integers()))
+    def test_from_list_to_list_equality(input_list):
+        # Test if from_list and to_list are consistent
+        ull = UnrolledLinkedList(size=3)
+        ull.from_list(input_list)
+
+        # Check if from_list and to_list produce the same output
+        assert ull.to_list() == input_list
+
+    @given(st.lists(st.integers()))
+    def test_python_len_and_list_size_equality(input_list):
+        # Test the size method and compare it with Python's len()
+        ull = UnrolledLinkedList(size=3)
+        ull.from_list(input_list)
+
+        # Compare size with len
+        assert ull.total_size() == len(input_list)
+
+    def test_iter(self):
+        # Test the iterator functionality
+        for i in range(5):
+            self.ull.append(i)
+
+        # Iterate over the list and check values
+        result = [x for x in self.ull]
+        assert result == [1, 2, 3, 4, 5]
 
 
 if __name__ == '__main__':
