@@ -23,32 +23,31 @@ This is a project demonstrating the implementation of an Unrolled Linked List in
 - `print_whole_list()`: Prints all elements in the list.
 - `total_size()`: Returns the total number of elements in the list.
 
-
-
 ## Contribution
 
-- LI Yichen (1806015345@qq.com) -- Complete the first half of the project
-- MOU Lingjie (553571948@qq.com) -- Complete the second half of the project
+- LI Yichen (<1806015345@qq.com>) -- Complete the first half of the project
+- MOU Lingjie (<553571948@qq.com>) -- Complete the second half of the project
 
 ## Changelog
-- 24.02.2025 - 2 
-   - fix style problem and update README.
+
+- 24.02.2025 - 2
+  - fix style problem and update README.
 - 24.02.2025 - 1
-   - Add test coverage
+  - Add test coverage
 - 24.02.2025 - 0
-   - Add new functions: map, reduce, iter, etc and fix old one
+  - Add new functions: map, reduce, iter, etc and fix old one
 - 22.02.2025 - 2
-   - Unify the names of methods and variables
+  - Unify the names of methods and variables
 - 22.02.2025 - 1
-   - Add test coverage
+  - Add test coverage
 - 22.02.2025 - 0
-   - Add functions: set_value, get_value, etc and fix old one
+  - Add functions: set_value, get_value, etc and fix old one
 - 19.02.2025 - 2
-   - Add test coverage
+  - Add test coverage
 - 19.02.2025 - 1
-   - Add functions:append, delete
+  - Add functions:append, delete
 - 19.02.2025 - 0
-   - Initial
+  - Initial
 
 ## Design notes
 
