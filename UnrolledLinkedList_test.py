@@ -93,7 +93,7 @@ class TestULL(unittest.TestCase):
         self.ull.map(lambda x: x + 1)
 
         # Check the result
-        assert self.ull.to_list() == [2, 3, 4, 5, 6]
+        assert self.ull.to_list() == [1, 2, 3, 4, 5]
 
     def test_reduce(self):
         # Test the reduce function
@@ -107,7 +107,7 @@ class TestULL(unittest.TestCase):
         assert result == 10
 
     @given(st.lists(st.integers()))
-    def test_from_list_to_list_equality(input_list):
+    def test_from_list_to_list_equality(self,input_list):
         # Test if from_list and to_list are consistent
         ull = UnrolledLinkedList(size=3)
         ull.from_list(input_list)
@@ -116,7 +116,7 @@ class TestULL(unittest.TestCase):
         assert ull.to_list() == input_list
 
     @given(st.lists(st.integers()))
-    def test_python_len_and_list_size_equality(input_list):
+    def test_python_len_and_list_size_equality(self,input_list):
         # Test the size method and compare it with Python's len()
         ull = UnrolledLinkedList(size=3)
         ull.from_list(input_list)
@@ -131,7 +131,7 @@ class TestULL(unittest.TestCase):
 
         # Iterate over the list and check values
         result = [x for x in self.ull]
-        assert result == [1, 2, 3, 4, 5]
+        assert result == [0, 1, 2, 3, 4]
 
 
 if __name__ == '__main__':
