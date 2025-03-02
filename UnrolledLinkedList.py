@@ -16,9 +16,9 @@ class UnrolledLinkedList:
 
     def append(self, value):
         # Check input data type
-        if not isinstance(value, (int,float)):
-            raise TypeError("Value must be an integer or float, but got {type(value).__name__}")
-        
+        if not isinstance(value, (int, float)):
+            raise TypeError("Value must be an integer or float")
+
         # Add an element to the list, creating new nodes as necessary
         if self.head is None:
             # If the list is empty, create the first node
@@ -206,15 +206,15 @@ class UnrolledLinkedList:
             current_node = current_node.next
 
         return total_size
-    
+
     def concat(self, other_list):
         # Connect current list to other list
         if not isinstance(other_list, UnrolledLinkedList):
-            raise TypeError("other_list must be an instance of UnrolledLinkedList")
-        
+            raise TypeError("List type error")
+
         if other_list.head is None:
             return self
-        
+
         if self.head is None:
             self.head = other_list.head
             self.current_node = other_list.current_node
@@ -223,12 +223,11 @@ class UnrolledLinkedList:
             current = self.head
             while current.next is not None:
                 current = current.next
-            
+
             current.next = other_list.head
             other_list.head.last = current
 
             self.current_node = other_list.current_node
             self.current_index = other_list.current_index
-        
-        return self
 
+        return self

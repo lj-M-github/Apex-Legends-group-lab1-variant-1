@@ -134,27 +134,28 @@ class TestULL(unittest.TestCase):
         assert result == [0, 1, 2, 3, 4]
 
     def test_append_invalid_type(self):
-        #test invalid input type
+        # test invalid input type
         with self.assertRaises(TypeError):
             self.ull.append("a")
         with self.assertRaises(TypeError):
-            self.ull.append([1,2,3])
+            self.ull.append([1, 2, 3])
         with self.assertRaises(TypeError):
-            self.ull.append({"key":"value"})
-    
-    @given(st.lists(st.integers()), st.lists(st.integers()), st.lists(st.integers()))
+            self.ull.append({"key": "value"})
+
+    @given(st.lists(st.integers()), st.lists(st.integers()),
+           st.lists(st.integers()))
     def test_monoid_properties(self, a, b, c):
         def create_ull(lst):
             ull = UnrolledLinkedList(size=3)
             ull.from_list(lst.copy())
             return ull
-        
-        #(a+b)+c vs a+(b+c)
+
+        # (a+b)+c vs a+(b+c)
         left = create_ull(a).concat(create_ull(b)).concat(create_ull(c))
         right = create_ull(a).concat(create_ull(b).concat(create_ull(c)))
         self.assertEqual(left.to_list(), right.to_list())
 
-        #a + 0 = a
+        # a + 0 = a
         empty = UnrolledLinkedList(size=3)
         self.assertEqual(empty.concat(create_ull(a)).to_list(), a)
         empty = UnrolledLinkedList(size=3)
