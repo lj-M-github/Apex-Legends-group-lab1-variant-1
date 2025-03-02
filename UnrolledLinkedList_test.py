@@ -142,22 +142,22 @@ class TestULL(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.ull.append({"key":"value"})
     
-@given(st.lists(st.integers()), st.lists(st.integers()), st.lists(st.integers()))
-def test_monoid_properties(self, list_a, list_b, list_c):
-    #Initialize UnrolledLinkedList instances with given lists
-    ull_a = UnrolledLinkedList(size=3).from_list(list_a)
-    ull_b = UnrolledLinkedList(size=3).from_list(list_b)
-    ull_c = UnrolledLinkedList(size=3).from_list(list_c)
+    @given(st.lists(st.integers()), st.lists(st.integers()), st.lists(st.integers()))
+    def test_monoid_properties(self, list_a, list_b, list_c):
+        #Initialize UnrolledLinkedList instances with given lists
+        ull_a = UnrolledLinkedList(size=3).from_list(list_a)
+        ull_b = UnrolledLinkedList(size=3).from_list(list_b)
+        ull_c = UnrolledLinkedList(size=3).from_list(list_c)
 
-    #(A + B) + C = A + (B + C)
-    left = (ull_a.copy().concat(ull_b.copy())).concat(ull_c.copy())
-    right = ull_a.copy().concat(ull_b.copy().concat(ull_c.copy()))
-    self.assertEqual(left.to_list(), right.to_list())
+        #(A + B) + C = A + (B + C)
+        left = (ull_a.copy().concat(ull_b.copy())).concat(ull_c.copy())
+        right = ull_a.copy().concat(ull_b.copy().concat(ull_c.copy()))
+        self.assertEqual(left.to_list(), right.to_list())
 
-    #e + A = A + e
-    empty = UnrolledLinkedList(size=3)
-    self.assertEqual(empty.copy().concat(ull_a).to_list(), list_a)
-    self.assertEqual(ull_a.copy().concat(empty).to_list(), list_a)
+        #e + A = A + e
+        empty = UnrolledLinkedList(size=3)
+        self.assertEqual(empty.copy().concat(ull_a).to_list(), list_a)
+        self.assertEqual(ull_a.copy().concat(empty).to_list(), list_a)
 
 
 if __name__ == '__main__':
