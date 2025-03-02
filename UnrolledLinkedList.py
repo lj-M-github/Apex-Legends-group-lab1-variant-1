@@ -231,4 +231,9 @@ class UnrolledLinkedList:
         self.current_node = other_list.current_node
         self.current_index = other_list.current_index
 
+    def copy(self):
+        #Copy the list
+        new_ull = UnrolledLinkedList(self.size)
+        new_ull.from_list(self.to_list())
+        return new_ull
 
