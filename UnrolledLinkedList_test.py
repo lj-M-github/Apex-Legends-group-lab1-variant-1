@@ -133,6 +133,56 @@ class TestULL(unittest.TestCase):
         result = [x for x in self.ull]
         assert result == [0, 1, 2, 3, 4]
 
+    def test_append_invalid_type(self):
+        #test invalid input type
+        with self.assertRaises(TypeError):
+            self.ull.append("a")
+        with self.assertRaises(TypeError):
+            self.ull.append([1,2,3])
+        with self.assertRaises(TypeError):
+            self.ull.append({"key":"value"})
+    
+    @given(st.lists(st.integers()), st.lists(st.integers()), st.lists(st.integers()))
+    def test_monoid_properties(self, list_a, list_b, list_c):
+        ull_a = UnrolledLinkedList(size=3)
+        ull_b = UnrolledLinkedList(size=3)
+        ull_c = UnrolledLinkedList(size=3)
+
+        ull_a.from_list(list_a)
+        ull_b.from_list(list_b)
+        ull_c.from_list(list_c)
+
+        #(A + B) + C == A + (B + C)
+        left_side = UnrolledLinkedList(size=3)
+        right_side = UnrolledLinkedList(size=3)
+
+        #(A + B) + C
+        left_side.concat(ull_a)
+        left_side.concat(ull_b)
+        left_side.concat(ull_c)
+
+        #A + (B + C)
+        right_side.concat(ull_b)
+        right_side.concat(ull_c)
+        right_side.concat(ull_a)
+
+        self.assertEqual(left_side.to_list(), right_side.to_list())
+
+        #e + A == A + e == A
+        empty_ull = UnrolledLinkedList(size=3)
+
+        #e + A == A
+        empty_plus_a = UnrolledLinkedList(size=3)
+        empty_plus_a.concat(empty_ull)
+        empty_plus_a.concat(ull_a)
+        self.assertEqual(empty_plus_a.to_list(), ull_a.to_list())
+
+        #A + e == A
+        a_plus_empty = UnrolledLinkedList(size=3)
+        a_plus_empty.concat(ull_a)
+        a_plus_empty.concat(empty_ull)
+        self.assertEqual(a_plus_empty.to_list(), ull_a.to_list()) 
+
 
 if __name__ == '__main__':
     unittest.main()
