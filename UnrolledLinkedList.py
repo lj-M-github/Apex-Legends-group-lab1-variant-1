@@ -136,6 +136,8 @@ class UnrolledLinkedList:
         for e in elements_list:
             self.append(e)
 
+        return self
+
     def get_last_node(self):
         # Get the last node and its index in the UnrolledLinkedList
         if self.current_node is None:
