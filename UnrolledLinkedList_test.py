@@ -145,25 +145,19 @@ class TestULL(unittest.TestCase):
     @given(st.lists(st.integers()), st.lists(st.integers()), st.lists(st.integers()))
     def test_monoid_properties(self, a, b, c):
         def create_ull(lst):
-            return UnrolledLinkedList(size=3).from_list(lst.copy())
+            ull = UnrolledLinkedList(size=3)
+            ull.from_list(lst.copy())
+            return ull
         
         #(a+b)+c vs a+(b+c)
         left = create_ull(a).concat(create_ull(b)).concat(create_ull(c))
         right = create_ull(a).concat(create_ull(b).concat(create_ull(c)))
-        self.assertEqual(left.to_list(), right.to_list(), "Monoid associativity test failed")
+        self.assertEqual(left.to_list(), right.to_list())
 
         #a + 0 = a
         empty = create_ull([])
-        self.assertEqual(
-            empty.concat(create_ull(a)).to_list(), 
-            a, 
-            "Left unit test failed"
-        )
-        self.assertEqual(
-            create_ull(a).concat(empty).to_list(), 
-            a, 
-            "Right unit test failed"
-        )
+        self.assertEqual(empty.concat(create_ull(a)).to_list(), a)
+        self.assertEqual(create_ull(a).concat(empty).to_list(), a)
 
 
 if __name__ == '__main__':

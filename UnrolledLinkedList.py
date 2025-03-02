@@ -215,6 +215,9 @@ class UnrolledLinkedList:
         if not isinstance(other_list, UnrolledLinkedList):
             raise TypeError("other_list must be an instance of UnrolledLinkedList")
         
+        if other_list.head is None:
+            return
+        
         if self.head is None:
             self.head = other_list.head
             self.current_node = other_list.current_node
