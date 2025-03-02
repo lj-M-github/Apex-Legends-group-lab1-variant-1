@@ -155,7 +155,7 @@ class TestULL(unittest.TestCase):
         self.assertEqual(left.to_list(), right.to_list())
 
         #a + 0 = a
-        empty = create_ull([])
+        empty = UnrolledLinkedList(size=3)
         self.assertEqual(empty.concat(create_ull(a)).to_list(), a)
         self.assertEqual(create_ull(a).concat(empty).to_list(), a)
 
