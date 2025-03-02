@@ -130,9 +130,6 @@ class UnrolledLinkedList:
         self.current_node = None
         self.current_index = 0
 
-        if not elements_list:
-            return self
-
         for e in elements_list:
             self.append(e)
         return self
@@ -216,22 +213,22 @@ class UnrolledLinkedList:
             raise TypeError("other_list must be an instance of UnrolledLinkedList")
         
         if other_list.head is None:
-            return
+            return self
         
         if self.head is None:
             self.head = other_list.head
             self.current_node = other_list.current_node
             self.current_index = other_list.current_index
-            return
-        
-        current = self.head
-        while current.next is not None:
-            current = current.next
+        else:
+            current = self.head
+            while current.next is not None:
+                current = current.next
             
-        current.next = other_list.head
-        if other_list is not None:
+            current.next = other_list.head
             other_list.head.last = current
 
-        self.current_node = other_list.current_node
-        self.current_index = other_list.current_index
+            self.current_node = other_list.current_node
+            self.current_index = other_list.current_index
+        
+        return self
 
