@@ -131,11 +131,10 @@ class UnrolledLinkedList:
         self.current_index = 0
 
         if not elements_list:
-            return
+            return self
 
         for e in elements_list:
             self.append(e)
-
         return self
 
     def get_last_node(self):
@@ -232,10 +231,4 @@ class UnrolledLinkedList:
 
         self.current_node = other_list.current_node
         self.current_index = other_list.current_index
-
-    def copy(self):
-        #Copy the list
-        new_ull = UnrolledLinkedList(self.size)
-        new_ull.from_list(self.to_list())
-        return new_ull
 

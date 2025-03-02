@@ -143,21 +143,27 @@ class TestULL(unittest.TestCase):
             self.ull.append({"key":"value"})
     
     @given(st.lists(st.integers()), st.lists(st.integers()), st.lists(st.integers()))
-    def test_monoid_properties(self, list_a, list_b, list_c):
-        #Initialize UnrolledLinkedList instances with given lists
-        ull_a = UnrolledLinkedList(size=3).from_list(list_a)
-        ull_b = UnrolledLinkedList(size=3).from_list(list_b)
-        ull_c = UnrolledLinkedList(size=3).from_list(list_c)
+    def test_monoid_properties(self, a, b, c):
+        def create_ull(lst):
+            return UnrolledLinkedList(size=3).from_list(lst.copy())
+        
+        #(a+b)+c vs a+(b+c)
+        left = create_ull(a).concat(create_ull(b)).concat(create_ull(c))
+        right = create_ull(a).concat(create_ull(b).concat(create_ull(c)))
+        self.assertEqual(left.to_list(), right.to_list(), "Monoid associativity test failed")
 
-        #(A + B) + C = A + (B + C)
-        left = (ull_a.copy().concat(ull_b.copy())).concat(ull_c.copy())
-        right = ull_a.copy().concat(ull_b.copy().concat(ull_c.copy()))
-        self.assertEqual(left.to_list(), right.to_list())
-
-        #e + A = A + e
-        empty = UnrolledLinkedList(size=3)
-        self.assertEqual(empty.copy().concat(ull_a).to_list(), list_a)
-        self.assertEqual(ull_a.copy().concat(empty).to_list(), list_a)
+        #a + 0 = a
+        empty = create_ull([])
+        self.assertEqual(
+            empty.concat(create_ull(a)).to_list(), 
+            a, 
+            "Left unit test failed"
+        )
+        self.assertEqual(
+            create_ull(a).concat(empty).to_list(), 
+            a, 
+            "Right unit test failed"
+        )
 
 
 if __name__ == '__main__':
