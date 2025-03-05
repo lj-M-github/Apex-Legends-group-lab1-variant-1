@@ -142,10 +142,8 @@ class UnrolledLinkedList:
             current = current.next
         return res
 
-    def from_list(self, elements_list: list):
+    def from_list(self, elements_list):
         # Check input data type
-        if not isinstance(elements_list, (int, float)):
-            raise TypeError("element_list must be a list")
         for e in elements_list:
             if not isinstance(e, (int, float)):
                 raise TypeError("element_list must be a list of integers or floats")
