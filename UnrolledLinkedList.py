@@ -7,6 +7,8 @@ class Node:
 
 
 class UnrolledLinkedList:
+    Num = int | float
+
     def __init__(self, size=4):
         # Initialize the UnrolledLinkedList with a specified size for each node
         self.head = None  # Head of the list
@@ -14,7 +16,7 @@ class UnrolledLinkedList:
         self.current_node = None  # The current node being worked on
         self.current_index = 0  # Current index in the node
 
-    def append(self, value: int | float):
+    def append(self, value: Num):
         # Check input data type
         if not isinstance(value, (int, float)):
             raise TypeError("Value must be an integer or float")
@@ -64,7 +66,7 @@ class UnrolledLinkedList:
             self.current_index = max(0, len(self.current_node.elements))
         return True
 
-    def set_value(self, node_index: int | float, element_index: int | float, element: int | float):
+    def set_value(self, node_index: Num, element_index: Num, element: Num):
         # Check input data type
         if not isinstance(node_index, (int, float)):
             raise TypeError("node_index must be an integer or float")
@@ -92,7 +94,7 @@ class UnrolledLinkedList:
         # Set the new value at the specified index
         current.elements[element_index] = element
 
-    def get_value(self, node_index: int | float, element_index: int | float):
+    def get_value(self, node_index: Num, element_index: Num):
         # Check input data type
         if not isinstance(node_index, (int, float)):
             raise TypeError("node_index must be an integer or float")
@@ -117,7 +119,7 @@ class UnrolledLinkedList:
 
         return current.elements[element_index]
 
-    def check(self, element: int | float):
+    def check(self, element: Num):
         # Check input data type
         if not isinstance(element, (int, float)):
             raise TypeError("element must be an integer or float")
@@ -146,7 +148,7 @@ class UnrolledLinkedList:
         # Check input data type
         for e in elements_list:
             if not isinstance(e, (int, float)):
-                raise TypeError("element_list must be a list of integers or floats")
+                raise TypeError("element_list should be int or float")
 
         # Convert a regular list into an UnrolledLinkedList.
         self.head = None
@@ -173,7 +175,7 @@ class UnrolledLinkedList:
             current.elements = [f(value) for value in current.elements]
             current = current.next
 
-    def reduce(self, f, initial_value: int | float):
+    def reduce(self, f, initial_value: Num):
         # Check input data type
         if not isinstance(initial_value, (int, float)):
             raise TypeError("element must be an integer or float")
