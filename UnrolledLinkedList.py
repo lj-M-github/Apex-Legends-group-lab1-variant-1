@@ -68,10 +68,10 @@ class UnrolledLinkedList:
 
     def set_value(self, node_index: Num, element_index: Num, element: Num):
         # Check input data type
-        if not isinstance(node_index, (int, float)):
-            raise TypeError("node_index must be an integer or float")
-        if not isinstance(element_index, (int, float)):
-            raise TypeError("element_index must be an integer or float")
+        if not isinstance(node_index, int):
+            raise TypeError("node_index must be an integer")
+        if not isinstance(element_index, int):
+            raise TypeError("element_index must be an integer")
         if not isinstance(element, (int, float)):
             raise TypeError("element must be an integer or float")
 
@@ -96,10 +96,10 @@ class UnrolledLinkedList:
 
     def get_value(self, node_index: Num, element_index: Num):
         # Check input data type
-        if not isinstance(node_index, (int, float)):
-            raise TypeError("node_index must be an integer or float")
-        if not isinstance(element_index, (int, float)):
-            raise TypeError("element_index must be an integer or float")
+        if not isinstance(node_index, int):
+            raise TypeError("node_index must be an integer")
+        if not isinstance(element_index, int):
+            raise TypeError("element_index must be an integer")
 
         # Get the value at a specific location (node index and element index)
         current = self.head
@@ -178,7 +178,7 @@ class UnrolledLinkedList:
     def reduce(self, f, initial_value: Num):
         # Check input data type
         if not isinstance(initial_value, (int, float)):
-            raise TypeError("element must be an integer or float")
+            raise TypeError("initial value must be an integer or float")
 
         # Reduce the elements of the UnrolledLinkedList using the given f.
         current = self.head
@@ -237,26 +237,8 @@ class UnrolledLinkedList:
         return total_size
 
     def concat(self, other_list):
-        # Connect current list to other list
+        #  Link `other_list` to `self`, preserving the order.
         if not isinstance(other_list, UnrolledLinkedList):
             raise TypeError("List type error")
-
-        if other_list.head is None:
-            return self
-
-        if self.head is None:
-            self.head = other_list.head
-            self.current_node = other_list.current_node
-            self.current_index = other_list.current_index
-        else:
-            current = self.head
-            while current.next is not None:
-                current = current.next
-
-            current.next = other_list.head
-            other_list.head.last = current
-
-            self.current_node = other_list.current_node
-            self.current_index = other_list.current_index
-
-        return self
+        merged_list = self.to_list() + other_list.to_list()
+        return self.from_list(merged_list)
