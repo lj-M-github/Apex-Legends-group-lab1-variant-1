@@ -32,10 +32,17 @@ such as linked lists and their variations, and provides essential functionality.
 ## Contribution
 
 - LI Yichen (<1806015345@qq.com>) -- Complete the first half of the project
+   - Finish PBT tests for monoid properties and add static types
 - MOU Lingjie (<553571948@qq.com>) -- Complete the second half of the project
+   - Optimized the details of the code
 
 ## Changelog
-
+- 05.03.2025 -0
+   - Add whole static types and optimize code
+- 02.03.2025 -1
+   - Add some static types
+- 02.03.2025 -0
+   - Finsh PBT tests for monoid properties
 - 24.02.2025 - 2
    - Fix style problem and update README
 - 24.02.2025 - 1
