@@ -7,78 +7,87 @@ import hypothesis.strategies as st
 class TestULL(unittest.TestCase):
 
     def setUp(self):
-        self.ull = UnrolledLinkedList(3)
+        self.ull_int = UnrolledLinkedList[int](size=3)
+        self.ull_any = UnrolledLinkedList()  # element_type=None
 
     def test_append_and_to_list(self):
         for i in range(10):
-            self.ull.append(i)
-        self.assertEqual(self.ull.to_list(), list(range(10)))
+            self.ull_int.append(i)
+        self.assertEqual(self.ull_int.to_list(), list(range(10)))
 
     def test_del_element(self):
         for i in [1, 2, 3, 4]:
-            self.ull.append(i)
+            self.ull_int.append(i)
 
-        self.ull.del_element()
+        self.ull_int.del_element()
         self.assertEqual(self.ull.to_list(), [1, 2, 3])
 
-        self.ull.del_element()
-        self.ull.del_element()
-        self.ull.del_element()
+        self.ull_int.del_element()
+        self.ull_int.del_element()
+        self.ull_int.del_element()
         self.assertEqual(self.ull.to_list(), [])
 
     def test_set_value(self):
         for i in range(5):
-            self.ull.append(i)
+            self.ull_int.append(i)
 
-        self.ull.set_value(0, 1, 10)
-        self.assertEqual(self.ull.to_list(), [0, 10, 2, 3, 4])
+        self.ull_int.set_value(0, 1, 10)
+        self.assertEqual(self.ull_int.to_list(), [0, 10, 2, 3, 4])
 
         self.ull.set_value(1, 0, 20)
-        self.assertEqual(self.ull.to_list(), [0, 10, 2, 20, 4])
+        self.assertEqual(self.ull_int.to_list(), [0, 10, 2, 20, 4])
 
         with self.assertRaises(IndexError):
-            self.ull.set_value(2, 0, 30)
+            self.ull_int.set_value(2, 0, 30)
         with self.assertRaises(IndexError):
-            self.ull.set_value(0, 3, 30)
+            self.ull_int.set_value(0, 3, 30)
 
     def test_get_value(self):
         for i in range(5):
-            self.ull.append(i)
+            self.ull_int.append(i)
 
-        self.assertEqual(self.ull.get_value(0, 1), 1)
-        self.assertEqual(self.ull.get_value(1, 1), 4)
+        self.assertEqual(self.ull_int.get_value(0, 1), 1)
+        self.assertEqual(self.ull_int.get_value(1, 1), 4)
 
     def test_check(self):
         for x in [1, 2, 1, 3, 1]:
-            self.ull.append(x)
-        self.assertEqual(self.ull.check(1), (1, 3))
-        self.assertEqual(self.ull.check(2), (2, 1))
-        self.assertEqual(self.ull.check(4), (4, 0))
+            self.ull_int.append(x)
+        self.assertEqual(self.ull_int.check(1), (1, 3))
+        self.assertEqual(self.ull_int.check(2), (2, 1))
+        self.assertEqual(self.ull_int.check(4), (4, 0))
+
+    def test_type_checking(self):
+        with self.assertRaises(TypeError):
+            self.ull_int.append("invalid")
+
+        self.ull_any.append(10)
+        self.ull_any.append("hello")
+        self.assertEqual(self.ull_any.to_list(), [10, "hello"])
 
     def test_from_list(self):
         input_list = [1, 2, 3, 4, 5, 6]
-        self.ull.from_list(input_list)
-        self.assertEqual(self.ull.to_list(), input_list)
+        self.ull_int.from_list(input_list)
+        self.assertEqual(self.ull_int.to_list(), input_list)
 
-        self.ull.from_list([])
-        self.assertEqual(self.ull.to_list(), [])
+        self.ull_int.from_list([])
+        self.assertEqual(self.ull_int.to_list(), [])
 
     def test_getLastNode(self):
-        self.assertEqual(self.ull.get_last_node(), (None, 0))
+        self.assertEqual(self.ull_int.get_last_node(), (None, 0))
 
         for x in [1, 2, 3, 4]:
-            self.ull.append(x)
-        self.assertEqual(self.ull.get_last_node(), ([4], 1))
+            self.ull_int.append(x)
+        self.assertEqual(self.ull_int.get_last_node(), ([4], 1))
 
     def test_print_whole_list(self):
         for i in range(5):
-            self.ull.append(i)
+            self.ull_int.append(i)
 
         import io
         import sys
         captured_output = io.StringIO()
         sys.stdout = captured_output
-        self.ull.print_whole_list()
+        self.ull_int.print_whole_list()
         sys.stdout = sys.__stdout__
 
         output = captured_output.getvalue().strip()
@@ -87,21 +96,21 @@ class TestULL(unittest.TestCase):
 
     def test_map(self):
         for i in range(5):
-            self.ull.append(i)
+            self.ull_int.append(i)
 
         # Apply a function to increment each value
-        self.ull.map(lambda x: x + 1)
+        self.ull_int.map(lambda x: x + 1)
 
         # Check the result
-        assert self.ull.to_list() == [1, 2, 3, 4, 5]
+        assert self.ull_int.to_list() == [1, 2, 3, 4, 5]
 
     def test_reduce(self):
         # Test the reduce function
         for i in range(5):
-            self.ull.append(i)
+            self.ull_int.append(i)
 
         # Sum of all elements in the list
-        result = self.ull.reduce(lambda acc, x: acc + x, 0)
+        result = self.ull_int.reduce(lambda acc, x: acc + x, 0)
 
         # Check the result
         assert result == 10
@@ -109,7 +118,7 @@ class TestULL(unittest.TestCase):
     @given(st.lists(st.integers()))
     def test_from_list_to_list_equality(self, input_list):
         # Test if from_list and to_list are consistent
-        ull = UnrolledLinkedList(size=3)
+        ull = UnrolledLinkedList[int](size=3)
         ull.from_list(input_list)
 
         # Check if from_list and to_list produce the same output
@@ -118,7 +127,7 @@ class TestULL(unittest.TestCase):
     @given(st.lists(st.integers()))
     def test_python_len_and_list_size_equality(self, input_list):
         # Test the size method and compare it with Python's len()
-        ull = UnrolledLinkedList(size=3)
+        ull = UnrolledLinkedList[int](size=3)
         ull.from_list(input_list)
 
         # Compare size with len
@@ -127,26 +136,17 @@ class TestULL(unittest.TestCase):
     def test_iter(self):
         # Test the iterator functionality
         for i in range(5):
-            self.ull.append(i)
+            self.ull_int.append(i)
 
         # Iterate over the list and check values
-        result = [x for x in self.ull]
+        result = [x for x in self.ull_int]
         assert result == [0, 1, 2, 3, 4]
-
-    def test_append_invalid_type(self):
-        # test invalid input type
-        with self.assertRaises(TypeError):
-            self.ull.append("a")
-        with self.assertRaises(TypeError):
-            self.ull.append([1, 2, 3])
-        with self.assertRaises(TypeError):
-            self.ull.append({"key": "value"})
 
     @given(st.lists(st.integers()), st.lists(st.integers()),
            st.lists(st.integers()))
     def test_monoid_properties(self, a, b, c):
         def create_ull(lst):
-            ull = UnrolledLinkedList(size=3)
+            ull = UnrolledLinkedList[int](size=3)
             ull.from_list(lst.copy())
             return ull
 
@@ -156,9 +156,9 @@ class TestULL(unittest.TestCase):
         self.assertEqual(left.to_list(), right.to_list())
 
         # a + 0 = a
-        empty = UnrolledLinkedList(size=3)
+        empty = UnrolledLinkedList[int](size=3)
         self.assertEqual(empty.concat(create_ull(a)).to_list(), a)
-        empty = UnrolledLinkedList(size=3)
+        empty = UnrolledLinkedList[int](size=3)
         self.assertEqual(create_ull(a).concat(empty).to_list(), a)
 
 

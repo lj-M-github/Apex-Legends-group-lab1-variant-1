@@ -153,8 +153,10 @@ class UnrolledLinkedList:
         # Get the last node and its index in the UnrolledLinkedList
         if self.current_node is None:
             return None, 0
-        else:
-            return self.current_node.elements, self.current_index
+        current = self.head
+        while current.next is not None:
+            current = current.next  
+        return current.elements, len(current.elements)
 
     def map(self, f):
         # Apply a function to each element in the UnrolledLinkedList.
@@ -166,8 +168,6 @@ class UnrolledLinkedList:
             current = current.next
 
     def reduce(self, f, initial_value):
-        self._check_type(initial_value)
-
         # Reduce the elements of the UnrolledLinkedList using the given f.
         current = self.head
         state = initial_value
