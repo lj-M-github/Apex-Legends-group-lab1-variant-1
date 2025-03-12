@@ -20,12 +20,12 @@ class TestULL(unittest.TestCase):
             self.ull_int.append(i)
 
         self.ull_int.del_element()
-        self.assertEqual(self.ull.to_list(), [1, 2, 3])
+        self.assertEqual(self.ull_int.to_list(), [1, 2, 3])
 
         self.ull_int.del_element()
         self.ull_int.del_element()
         self.ull_int.del_element()
-        self.assertEqual(self.ull.to_list(), [])
+        self.assertEqual(self.ull_int.to_list(), [])
 
     def test_set_value(self):
         for i in range(5):
@@ -34,7 +34,7 @@ class TestULL(unittest.TestCase):
         self.ull_int.set_value(0, 1, 10)
         self.assertEqual(self.ull_int.to_list(), [0, 10, 2, 3, 4])
 
-        self.ull.set_value(1, 0, 20)
+        self.ull_int.set_value(1, 0, 20)
         self.assertEqual(self.ull_int.to_list(), [0, 10, 2, 20, 4])
 
         with self.assertRaises(IndexError):
