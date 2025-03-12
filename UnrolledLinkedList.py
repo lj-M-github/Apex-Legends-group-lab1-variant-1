@@ -20,7 +20,7 @@ class UnrolledLinkedList:
             def __init__(self, size=4):
                 super().__init__(element_type=element_type, size=size)
         return TypedUnrolledLinkedList
-    
+
     def _check_type(self, value):
         if self.element_type is not None and not isinstance(value, self.element_type):
             raise TypeError("Static type error")
@@ -155,7 +155,7 @@ class UnrolledLinkedList:
             return None, 0
         current = self.head
         while current.next is not None:
-            current = current.next  
+            current = current.next
         return current.elements, len(current.elements)
 
     def map(self, f):
@@ -228,7 +228,7 @@ class UnrolledLinkedList:
         # Connect current list to other list
         if not isinstance(other_list, UnrolledLinkedList):
             raise TypeError("List type error")
-        
+
         if self.element_type is not None and other_list.element_type is not None:
             if self.element_type != other_list.element_type:
                 raise TypeError("List type error")
