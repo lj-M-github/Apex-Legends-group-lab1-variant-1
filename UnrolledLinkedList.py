@@ -73,8 +73,19 @@ class UnrolledLinkedList:
             self.current_index = max(0, len(self.current_node.elements))
         return True
 
+<<<<<<< HEAD
     def set_value(self, node_index, element_index, element):
         self._check_type(element)
+=======
+    def set_value(self, node_index: Num, element_index: Num, element: Num):
+        # Check input data type
+        if not isinstance(node_index, int):
+            raise TypeError("node_index must be an integer")
+        if not isinstance(element_index, int):
+            raise TypeError("element_index must be an integer")
+        if not isinstance(element, (int, float)):
+            raise TypeError("element must be an integer or float")
+>>>>>>> b00698da0d93fe90b7330081c11600561b946e53
 
         # Set a value at a specific location (node index and element index).
         current = self.head
@@ -95,7 +106,17 @@ class UnrolledLinkedList:
         # Set the new value at the specified index
         current.elements[element_index] = element
 
+<<<<<<< HEAD
     def get_value(self, node_index, element_index):
+=======
+    def get_value(self, node_index: Num, element_index: Num):
+        # Check input data type
+        if not isinstance(node_index, int):
+            raise TypeError("node_index must be an integer")
+        if not isinstance(element_index, int):
+            raise TypeError("element_index must be an integer")
+
+>>>>>>> b00698da0d93fe90b7330081c11600561b946e53
         # Get the value at a specific location (node index and element index)
         current = self.head
         count = 0
@@ -165,8 +186,15 @@ class UnrolledLinkedList:
             current.elements = [f(value) for value in current.elements]
             current = current.next
 
+<<<<<<< HEAD
     def reduce(self, f, initial_value):
         self._check_type(initial_value)
+=======
+    def reduce(self, f, initial_value: Num):
+        # Check input data type
+        if not isinstance(initial_value, (int, float)):
+            raise TypeError("initial value must be an integer or float")
+>>>>>>> b00698da0d93fe90b7330081c11600561b946e53
 
         # Reduce the elements of the UnrolledLinkedList using the given f.
         current = self.head
@@ -225,9 +253,10 @@ class UnrolledLinkedList:
         return total_size
 
     def concat(self, other_list):
-        # Connect current list to other list
+        #  Link `other_list` to `self`, preserving the order.
         if not isinstance(other_list, UnrolledLinkedList):
             raise TypeError("List type error")
+<<<<<<< HEAD
         
         if self.element_type is not None and other_list.element_type is not None:
             if self.element_type != other_list.element_type:
@@ -252,3 +281,7 @@ class UnrolledLinkedList:
             self.current_index = other_list.current_index
 
         return self
+=======
+        merged_list = self.to_list() + other_list.to_list()
+        return self.from_list(merged_list)
+>>>>>>> b00698da0d93fe90b7330081c11600561b946e53
