@@ -7,19 +7,26 @@ class Node:
 
 
 class UnrolledLinkedList:
-    Num = int | float
-
-    def __init__(self, size=4):
+    def __init__(self, element_type=None, size=4):
         # Initialize the UnrolledLinkedList with a specified size for each node
+        self.element_type = element_type
         self.head = None  # Head of the list
         self.size = size  # Size of each node
         self.current_node = None  # The current node being worked on
         self.current_index = 0  # Current index in the node
 
-    def append(self, value: Num):
-        # Check input data type
-        if not isinstance(value, (int, float)):
-            raise TypeError("Value must be an integer or float")
+    def __class_getitem__(cls, element_type):
+        class TypedUnrolledLinkedList(cls):
+            def __init__(self, size=4):
+                super().__init__(element_type=element_type, size=size)
+        return TypedUnrolledLinkedList
+    
+    def _check_type(self, value):
+        if self.element_type is not None and not isinstance(value, self.element_type):
+            raise TypeError("Static type error")
+
+    def append(self, value):
+        self._check_type(value)
 
         # Add an element to the list, creating new nodes as necessary
         if self.head is None:
@@ -66,14 +73,8 @@ class UnrolledLinkedList:
             self.current_index = max(0, len(self.current_node.elements))
         return True
 
-    def set_value(self, node_index: Num, element_index: Num, element: Num):
-        # Check input data type
-        if not isinstance(node_index, (int, float)):
-            raise TypeError("node_index must be an integer or float")
-        if not isinstance(element_index, (int, float)):
-            raise TypeError("element_index must be an integer or float")
-        if not isinstance(element, (int, float)):
-            raise TypeError("element must be an integer or float")
+    def set_value(self, node_index, element_index, element):
+        self._check_type(element)
 
         # Set a value at a specific location (node index and element index).
         current = self.head
@@ -94,13 +95,7 @@ class UnrolledLinkedList:
         # Set the new value at the specified index
         current.elements[element_index] = element
 
-    def get_value(self, node_index: Num, element_index: Num):
-        # Check input data type
-        if not isinstance(node_index, (int, float)):
-            raise TypeError("node_index must be an integer or float")
-        if not isinstance(element_index, (int, float)):
-            raise TypeError("element_index must be an integer or float")
-
+    def get_value(self, node_index, element_index):
         # Get the value at a specific location (node index and element index)
         current = self.head
         count = 0
@@ -119,11 +114,7 @@ class UnrolledLinkedList:
 
         return current.elements[element_index]
 
-    def check(self, element: Num):
-        # Check input data type
-        if not isinstance(element, (int, float)):
-            raise TypeError("element must be an integer or float")
-
+    def check(self, element):
         # Check how many times a specific element appears in the list
         current = self.head
         count = 0
@@ -145,15 +136,14 @@ class UnrolledLinkedList:
         return res
 
     def from_list(self, elements_list):
-        # Check input data type
-        for e in elements_list:
-            if not isinstance(e, (int, float)):
-                raise TypeError("element_list should be int or float")
-
         # Convert a regular list into an UnrolledLinkedList.
         self.head = None
         self.current_node = None
         self.current_index = 0
+
+        if self.element_type is not None:
+            for e in elements_list:
+                self._check_type(e)
 
         for e in elements_list:
             self.append(e)
@@ -175,10 +165,8 @@ class UnrolledLinkedList:
             current.elements = [f(value) for value in current.elements]
             current = current.next
 
-    def reduce(self, f, initial_value: Num):
-        # Check input data type
-        if not isinstance(initial_value, (int, float)):
-            raise TypeError("element must be an integer or float")
+    def reduce(self, f, initial_value):
+        self._check_type(initial_value)
 
         # Reduce the elements of the UnrolledLinkedList using the given f.
         current = self.head
@@ -240,6 +228,10 @@ class UnrolledLinkedList:
         # Connect current list to other list
         if not isinstance(other_list, UnrolledLinkedList):
             raise TypeError("List type error")
+        
+        if self.element_type is not None and other_list.element_type is not None:
+            if self.element_type != other_list.element_type:
+                raise TypeError("List type error")
 
         if other_list.head is None:
             return self
