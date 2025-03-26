@@ -1,61 +1,54 @@
-class Node:
-    def __init__(self, elements=None):
-        # Initialize a node with given elements (or an empty list by default)
-        self.elements = elements if elements is not None else []
-        self.next = None  # Points to the next node in the linked list
-        self.last = None  # Points to the previous node in the linked list
+from typing import Generic, TypeVar, Optional, Iterator, Iterable, Any
+
+T = TypeVar('T')
+
+class Node(Generic[T]):
+    def __init__(self, elements: Optional[list[T]] = None) -> None:
+        self.elements: list[T] = elements if elements is not None else []
+        self.next: Optional[Node[T]] = None
+        self.last: Optional[Node[T]] = None
 
 
-class UnrolledLinkedList:
-    def __init__(self, element_type=None, size=4):
-        # Initialize the UnrolledLinkedList with a specified size for each node
-        self.element_type = element_type
-        self.head = None  # Head of the list
-        self.size = size  # Size of each node
-        self.current_node = None  # The current node being worked on
-        self.current_index = 0  # Current index in the node
+class UnrolledLinkedList(Generic[T]):
+    def __init__(self, element_type: Optional[type] = None, size: int = 4) -> None:
+        self.element_type: Optional[type] = element_type
+        self.head: Optional[Node[T]] = None
+        self.size: int = size
+        self.current_node: Optional[Node[T]] = None
+        self.current_index: int = 0
 
-    def __class_getitem__(cls, element_type):
-        class TypedUnrolledLinkedList(cls):
-            def __init__(self, size=4):
+    @classmethod
+    def __class_getitem__(cls, element_type: type) -> type:
+        class TypedUnrolledLinkedList(UnrolledLinkedList):
+            def __init__(self, size: int = 4) -> None:
                 super().__init__(element_type=element_type, size=size)
         return TypedUnrolledLinkedList
 
-    def _check_type(self, value):
+    def _check_type(self, value: T) -> None:
         if self.element_type is not None and not isinstance(value, self.element_type):
-            raise TypeError("Static type error")
+            raise TypeError(f"Expected {self.element_type}, got {type(value)}")
 
-    def append(self, value):
+    def append(self, value: T) -> None:
         self._check_type(value)
-
-        # Add an element to the list, creating new nodes as necessary
         if self.head is None:
-            # If the list is empty, create the first node
             self.head = Node([value])
             self.current_node = self.head
             self.current_index = 1
         else:
             if len(self.current_node.elements) < self.size:
-                # If the current node has space, append the element
                 self.current_node.elements.append(value)
                 self.current_index += 1
             else:
-                # If the current node is full, create a new node
                 new_node = Node([value])
                 self.current_node.next = new_node
                 new_node.last = self.current_node
                 self.current_node = new_node
                 self.current_index = 1
 
-    def del_element(self):
-        # Delete an element from the last node
+    def del_element(self) -> bool:
         if self.current_node is None or self.current_index == 0:
             return False
-
-        # Delete the element at the current index
         del self.current_node.elements[self.current_index - 1]
-
-        # If the current node is empty, remove it and update pointers
         if not self.current_node.elements:
             if self.current_node.last:
                 self.current_node.last.next = self.current_node.next
@@ -64,8 +57,6 @@ class UnrolledLinkedList:
                 self.current_node = self.current_node.last
             else:
                 self.current_node = self.current_node.next
-
-        # If the list is empty now, reset the head and current index
         if self.current_node is None:
             self.current_index = 0
             self.head = None
@@ -73,169 +64,118 @@ class UnrolledLinkedList:
             self.current_index = max(0, len(self.current_node.elements))
         return True
 
-    def set_value(self, node_index, element_index, element):
+    def set_value(self, node_index: int, element_index: int, element: T) -> None:
         self._check_type(element)
-
-        # Set a value at a specific location (node index and element index).
         current = self.head
         count = 0
-
-        # Traverse to the node at the given index
         while current is not None and count < node_index:
             current = current.next
             count += 1
-
         if current is None:
             raise IndexError("Node index out of range")
-
-        # Check if the element index is valid
         if element_index < 0 or element_index >= len(current.elements):
             raise IndexError("Element index out of range")
-
-        # Set the new value at the specified index
         current.elements[element_index] = element
 
-    def get_value(self, node_index, element_index):
-        # Get the value at a specific location (node index and element index)
+    def get_value(self, node_index: int, element_index: int) -> T:
         current = self.head
         count = 0
-
-        # Traverse to the node at the given index
         while current is not None and count < node_index:
             current = current.next
             count += 1
-
         if current is None:
             raise IndexError("Node index out of range")
-
-        # Check if the element index is valid
         if element_index < 0 or element_index >= len(current.elements):
             raise IndexError("Element index out of range")
-
         return current.elements[element_index]
 
-    def check(self, element):
-        # Check how many times a specific element appears in the list
-        current = self.head
+    def check(self, element: T) -> tuple[T, int]:
         count = 0
-
+        current = self.head
         while current is not None:
             count += current.elements.count(element)
             current = current.next
+        return (element, count)
 
-        return element, count
-
-    def to_list(self):
-        # Convert the UnrolledLinkedList into a regular list.
-        res = []
+    def to_list(self) -> list[T]:
+        res: list[T] = []
         current = self.head
-
         while current is not None:
-            res.extend(current.elements)  # Add elements from the current node
+            res.extend(current.elements)
             current = current.next
         return res
 
-    def from_list(self, elements_list):
-        # Convert a regular list into an UnrolledLinkedList.
+    def from_list(self, elements_list: Iterable[T]) -> 'UnrolledLinkedList[T]':
         self.head = None
         self.current_node = None
         self.current_index = 0
-
-        if self.element_type is not None:
-            for e in elements_list:
-                self._check_type(e)
-
         for e in elements_list:
             self.append(e)
         return self
 
-    def get_last_node(self):
-        # Get the last node and its index in the UnrolledLinkedList
+    def get_last_node(self) -> tuple[Optional[list[T]], int]:
         if self.current_node is None:
-            return None, 0
+            return (None, 0)
         current = self.head
         while current.next is not None:
             current = current.next
-        return current.elements, len(current.elements)
+        return (current.elements, len(current.elements))
 
-    def map(self, f):
-        # Apply a function to each element in the UnrolledLinkedList.
+    def map(self, f: Any) -> None:
         current = self.head
-
         while current is not None:
-            # Apply the function to each element in the current node
             current.elements = [f(value) for value in current.elements]
             current = current.next
 
-    def reduce(self, f, initial_value):
-        # Reduce the elements of the UnrolledLinkedList using the given f.
-        current = self.head
+    def reduce(self, f: Any, initial_value: T) -> T:
         state = initial_value
-
+        current = self.head
         while current is not None:
-            # Reduce each element in the current node
             for value in current.elements:
                 state = f(state, value)
             current = current.next
-
         return state
 
-    def __iter__(self):
-        # Initialize the iterator to traverse the UnrolledLinkedList.
-        self._iter_node = self.head  # Start from the head node
-        self._iter_index = 0  # Current element index in the node
+    def __iter__(self) -> Iterator[T]:
+        self._iter_node = self.head
+        self._iter_index = 0
         return self
 
-    def __next__(self):
-        # Return the next element in the UnrolledLinkedList.
+    def __next__(self) -> T:
         if self._iter_node is None:
-            raise StopIteration  # If no more nodes, stop iteration
-
-        current_elements = self._iter_node.elements
-
-        # If there are more elements in the current node, return the next one
-        if self._iter_index < len(current_elements):
-            result = current_elements[self._iter_index]
+            raise StopIteration
+        if self._iter_index < len(self._iter_node.elements):
+            result = self._iter_node.elements[self._iter_index]
             self._iter_index += 1
             return result
         else:
-            # If current_node.elements are processed, move to the next node
             self._iter_node = self._iter_node.next
-            self._iter_index = 0  # Reset the element index for the new node
+            self._iter_index = 0
             if self._iter_node is None:
-                raise StopIteration  # If no more nodes, stop iteration
+                raise StopIteration
             return self.__next__()
 
-    def print_whole_list(self):
-        # Print the entire UnrolledLinkedList.
+    def print_whole_list(self) -> None:
         current = self.head
         while current is not None:
             print(current.elements)
             current = current.next
 
-    def total_size(self):
-        # Return the total number of elements in the UnrolledLinkedList.
-        total_size = 0
-        current_node = self.head
+    def total_size(self) -> int:
+        total = 0
+        current = self.head
+        while current is not None:
+            total += len(current.elements)
+            current = current.next
+        return total
 
-        while current_node is not None:
-            total_size += len(current_node.elements)
-            current_node = current_node.next
-
-        return total_size
-
-    def concat(self, other_list):
-        # Connect current list to other list
+    def concat(self, other_list: 'UnrolledLinkedList[T]') -> 'UnrolledLinkedList[T]':
         if not isinstance(other_list, UnrolledLinkedList):
-            raise TypeError("List type error")
-
-        if self.element_type is not None and other_list.element_type is not None:
-            if self.element_type != other_list.element_type:
-                raise TypeError("List type error")
-
+            raise TypeError("Other list must be an UnrolledLinkedList")
+        if self.element_type != other_list.element_type:
+            raise TypeError("Element type mismatch")
         if other_list.head is None:
             return self
-
         if self.head is None:
             self.head = other_list.head
             self.current_node = other_list.current_node
@@ -244,11 +184,8 @@ class UnrolledLinkedList:
             current = self.head
             while current.next is not None:
                 current = current.next
-
             current.next = other_list.head
             other_list.head.last = current
-
             self.current_node = other_list.current_node
             self.current_index = other_list.current_index
-
         return self
