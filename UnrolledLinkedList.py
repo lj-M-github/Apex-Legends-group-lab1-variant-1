@@ -36,6 +36,7 @@ class UnrolledLinkedList(Generic[T]):
             self.current_node = self.head
             self.current_index = 1
         else:
+            assert self.current_node is not None
             if len(self.current_node.elements) < self.size:
                 self.current_node.elements.append(value)
                 self.current_index += 1
@@ -115,7 +116,7 @@ class UnrolledLinkedList(Generic[T]):
         return self
 
     def get_last_node(self) -> tuple[Optional[list[T]], int]:
-        if self.current_node is None:
+        if self.head is None:
             return (None, 0)
         current = self.head
         while current.next is not None:
