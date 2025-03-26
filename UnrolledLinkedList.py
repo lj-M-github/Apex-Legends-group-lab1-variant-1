@@ -2,6 +2,7 @@ from typing import Generic, TypeVar, Optional, Iterator, Iterable, Any
 
 T = TypeVar('T')
 
+
 class Node(Generic[T]):
     def __init__(self, elements: Optional[list[T]] = None) -> None:
         self.elements: list[T] = elements if elements is not None else []
