@@ -20,7 +20,7 @@ class UnrolledLinkedList(Generic[T]):
 
     @classmethod
     def __class_getitem__(cls, element_type: Type[T]) -> Type['UnrolledLinkedList[T]']:
-        class TypedUnrolledLinkedList(UnrolledLinkedList):
+        class TypedUnrolledLinkedList(UnrolledLinkedList[T]):
             def __init__(self, size: int = 4) -> None:
                 super().__init__(element_type=element_type, size=size)
         return TypedUnrolledLinkedList
