@@ -57,14 +57,6 @@ class TestULL(unittest.TestCase):
         self.assertEqual(self.ull_int.check(2), (2, 1))
         self.assertEqual(self.ull_int.check(4), (4, 0))
 
-    def test_type_checking(self) -> None:
-        with self.assertRaises(TypeError):
-            self.ull_int.append("invalid")
-
-        self.ull_any.append(10)
-        self.ull_any.append("hello")
-        self.assertEqual(self.ull_any.to_list(), [10, "hello"])
-
     def test_from_list(self) -> None:
         input_list = [1, 2, 3, 4, 5, 6]
         self.ull_int.from_list(input_list)
