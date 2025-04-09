@@ -8,8 +8,8 @@ from typing import Any, List
 class TestULL(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.ull_int : UnrolledLinkedList[int] = UnrolledLinkedList[int](size=3)
-        self.ull_any : UnrolledLinkedList[Any] = UnrolledLinkedList()  # element_type=None
+        self.ull_int: UnrolledLinkedList[int] = UnrolledLinkedList[int](size=3)
+        self.ull_any: UnrolledLinkedList[Any] = UnrolledLinkedList()  # element_type=None
 
     def test_append_and_to_list(self) -> None:
         for i in range(10):
