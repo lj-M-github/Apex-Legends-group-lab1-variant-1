@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Optional, Iterator, Iterable, Any, Type
+from typing import Generic, TypeVar, Optional, Iterator, Iterable, Any
 
 T = TypeVar('T')
 
@@ -17,13 +17,6 @@ class UnrolledLinkedList(Generic[T]):
         self.size: int = size
         self.current_node: Optional[Node[T]] = None
         self.current_index: int = 0
-
-    @classmethod
-    def __class_getitem__(cls, element_type: Type[T]) -> Type['UnrolledLinkedList[T]']:
-        class TypedUnrolledLinkedList(UnrolledLinkedList[T]):
-            def __init__(self, size: int = 4) -> None:
-                super().__init__(element_type=element_type, size=size)
-        return TypedUnrolledLinkedList
 
     def _check_type(self, value: T) -> None:
         if self.element_type is not None and not isinstance(value, self.element_type):
