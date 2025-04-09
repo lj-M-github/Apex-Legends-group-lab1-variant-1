@@ -19,8 +19,8 @@ class UnrolledLinkedList(Generic[T]):
         self.current_index: int = 0
 
     @classmethod
-    def __class_getitem__(cls, element_type: Type) -> Type['UnrolledLinkedList[Any]']:
-        class TypedUnrolledLinkedList(UnrolledLinkedList[Any]):
+    def __class_getitem__(cls, element_type: Type[T]) -> Type['UnrolledLinkedList[T]']:
+        class TypedUnrolledLinkedList(UnrolledLinkedList):
             def __init__(self, size: int = 4) -> None:
                 super().__init__(element_type=element_type, size=size)
         return TypedUnrolledLinkedList
