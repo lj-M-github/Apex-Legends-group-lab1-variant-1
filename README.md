@@ -37,6 +37,7 @@ such as linked lists and their variations, and provides essential functionality.
    - Optimized the details of the code
 
 ## Changelog
+
 - 10.04.2025 - 0
    - pass mypy --strict check
 - 05.03.2025 -0
